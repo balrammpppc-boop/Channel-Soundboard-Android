@@ -1,0 +1,743 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Channel Soundboard v11 - Balram Sevak</title>
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="theme-color" content="#13151a">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Channel Soundboard">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>
+:root{--bg:#e8eef3;--sf:#fff;--tx:#14212e;--mu:#5a6b7b;--ac:#0a6c8f;--on:#fff;--bd:#c9d4de;--rw:#d3dde7;--dk:#fff}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#13151a;--sf:#1c1f26;--tx:#e6e8ee;--mu:#9aa0ad;--ac:#f2b53d;--on:#1b1300;--bd:#343843;--rw:#454851;--dk:#13151a}}
+:root[data-theme="dark"]{--bg:#13151a;--sf:#1c1f26;--tx:#e6e8ee;--mu:#9aa0ad;--ac:#f2b53d;--on:#1b1300;--bd:#343843;--rw:#454851;--dk:#13151a}
+:root[data-theme="blue"]{--bg:#0b1a2b;--sf:#112640;--tx:#e8f1fb;--mu:#8fb0d0;--ac:#4cc9f0;--on:#00212b;--bd:#2b4c75;--rw:#1b3a5c;--dk:#0b1a2b}
+:root[data-theme="green"]{--bg:#0f1a14;--sf:#15261c;--tx:#e7f5ec;--mu:#8fb89e;--ac:#4ade80;--on:#04210f;--bd:#2c5039;--rw:#1f3a2a;--dk:#0f1a14}
+#stb{width:100%}
+.bx details{border:1px solid var(--bd);border-radius:10px;padding:6px 10px}.bx summary{cursor:pointer;font-weight:600}.bx p,.bx li{font-size:13px;margin:6px 0}.bx ul,.bx ol{margin:4px 0;padding-left:18px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{height:100%;margin:0;overflow:hidden}
+body{background:var(--bg);color:var(--tx);font:14px/1.3 system-ui,-apple-system,"Noto Sans Devanagari","Segoe UI",sans-serif;-webkit-user-select:none;user-select:none}
+button{font:inherit;color:inherit;cursor:pointer;touch-action:manipulation}
+svg{display:block;fill:currentColor}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;padding:env(safe-area-inset-top,0px) env(safe-area-inset-right,0px) env(safe-area-inset-bottom,0px) env(safe-area-inset-left,0px)}
+#wv{position:relative;flex:none;height:60px;background:var(--sf);border-bottom:2px solid var(--ac)}
+#cv{width:100%;height:100%;display:block;touch-action:none}
+#t1,#t2{position:absolute;top:3px;font-size:12px;font-weight:600;padding:0 6px;background:var(--sf);border-radius:6px;opacity:.92}
+#t1{left:4px}#t2{right:4px}
+#mid{flex:1;min-height:0;display:flex}
+#lp{flex:none;width:208px;display:flex;flex-direction:column;gap:6px;padding:8px;background:var(--sf);overflow-y:auto}
+#now{font-weight:600;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr{display:flex;justify-content:space-between;align-items:center}
+.tb{width:32px;height:32px;border-radius:50%;border:1px solid var(--bd);background:transparent;display:grid;place-items:center;padding:0}
+.tb svg{width:18px;height:18px}
+#pp{width:38px;height:38px;border:0;background:var(--ac);color:var(--on)}
+#pp svg{width:22px;height:22px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.g2 button,#en,#clr,#stb{height:28px;border:1px solid var(--bd);background:transparent;border-radius:14px;font-size:12px;padding:0 8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--tx)}
+#en{width:100%;appearance:none;-webkit-appearance:none;text-align:center;text-align-last:center;background:var(--bg)}
+[aria-pressed="true"]{background:var(--ac)!important;color:var(--on)!important;border-color:var(--ac)!important}
+.ar{display:flex;gap:6px;align-items:center}
+#tt{flex:1;min-width:0;font-size:11px;color:var(--mu);white-space:nowrap;cursor:pointer}
+#clr.arm{border-color:var(--ac);color:var(--ac)}
+.ms{margin-top:auto;display:flex;align-items:center;gap:6px;font-size:12px}
+#mv{flex:1;min-width:0;accent-color:var(--ac)}
+#ch{flex:1;min-width:0;display:flex;gap:8px;overflow-x:auto;padding:8px;align-items:stretch}
+.c{position:relative;flex:none;width:78px;display:flex;flex-direction:column;align-items:center;gap:5px;background:var(--rw);border-radius:14px;padding:6px 4px}
+.c.on{outline:2px solid var(--ac)}
+.c.emp .dv,.c.emp .pb,.c.emp .fd,.c.emp .pc{opacity:.35;pointer-events:none}
+.dv{width:100%;height:26px;border:0;border-radius:13px;background:var(--dk);font-size:10px;padding:0 4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pb{flex:none;margin-bottom:10px;width:38px;height:38px;border-radius:50%;border:0;background:var(--dk);display:grid;place-items:center;padding:0}
+.pb svg{width:20px;height:20px}
+.c.on .pb{background:var(--ac);color:var(--on)}
+.mt{width:100%;height:26px;border:0;border-radius:13px;background:var(--dk);font-size:11px;padding:0 4px;white-space:nowrap}
+.c.emp .mt{opacity:.35;pointer-events:none}
+.fd{flex:1;min-height:50px;width:44px;position:relative;touch-action:none;display:flex;justify-content:center}
+.fd::before{content:"";width:6px;height:100%;border-radius:3px;background:var(--dk)}
+.fl{position:absolute;bottom:0;width:6px;border-radius:3px;background:var(--ac)}
+.kn{position:absolute;left:50%;width:34px;height:16px;margin:0 0 -8px -17px;border-radius:6px;background:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.pc{font-size:11px}
+.dg{flex:none;width:100%;height:22px;border:0;background:transparent;color:var(--mu);display:grid;place-items:center;padding:0;touch-action:none;cursor:grab}
+.c.emp .dg{visibility:hidden}
+.c.dr{z-index:4;box-shadow:0 8px 20px rgba(0,0,0,.4)}
+.ad{width:100%;border:0;background:var(--dk);border-radius:10px;padding:4px 2px;font-size:11px;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.nm{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.du{font-size:10px;color:var(--mu)}
+#md{position:fixed;inset:0;background:rgba(0,0,0,.5);display:grid;place-items:center;z-index:20}
+.bx{background:var(--sf);border-radius:16px;padding:14px;width:min(380px,92vw);max-height:92vh;overflow:auto;display:flex;flex-direction:column;gap:8px}
+.bx h3{margin:0;font-size:15px}
+.ln{display:flex;align-items:center;gap:8px}
+.lb{font-size:12px;color:var(--mu)}
+.in{flex:1;min-width:0;padding:6px 8px;border:1px solid var(--bd);border-radius:8px;background:var(--bg);color:var(--tx);font:inherit}
+.sb,.pl button{height:34px;padding:0 12px;border:1px solid var(--bd);background:transparent;border-radius:17px;font-size:13px}
+.ln .sb{flex:1}
+.pl{display:flex;flex-wrap:wrap;gap:6px}
+.bx input[type=range]{flex:1;accent-color:var(--ac)}
+#ts{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:8px 14px;border-radius:18px;z-index:30;font-size:13px}
+#cw{flex:1;min-width:0;display:flex;flex-direction:column}
+#pg{flex:none;display:flex;gap:6px;padding:6px 8px 0;overflow-x:auto}
+#pg button{flex:none;height:28px;padding:0 12px;border:1px solid var(--bd);background:transparent;border-radius:14px;font-size:12px;white-space:nowrap}
+#ch{overflow:auto}
+#pm{width:100%;height:28px;border:1px solid var(--bd);border-radius:14px;font-size:12px;padding:0 8px;color:var(--tx);appearance:none;-webkit-appearance:none;text-align:center;text-align-last:center;background:var(--bg)}
+.nb{font-size:11px;font-weight:700;color:var(--ac);min-height:13px}
+.du{font-size:9.5px;line-height:11px;text-align:center;white-space:normal;word-break:break-all}
+.cb,.cu{height:22px;border:0;border-radius:11px;background:var(--dk);font-size:10.5px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cb{width:100%}
+.cr{display:flex;gap:4px;width:100%}.cr .cu{flex:1}
+.c.emp .cb,.c.emp .cr{opacity:.35;pointer-events:none}
+.hf{position:relative;flex:1;height:28px;touch-action:none;min-width:0}
+.hf::before{content:"";position:absolute;left:0;right:0;top:10px;height:8px;border-radius:4px;background:var(--dk)}
+.hl{position:absolute;left:0;top:10px;height:8px;border-radius:4px;background:var(--ac)}
+.hk{position:absolute;top:2px;width:18px;height:24px;margin-left:-9px;border-radius:6px;background:var(--tx);box-shadow:0 1px 4px rgba(0,0,0,.4)}
+.vm{margin-top:auto;display:flex;justify-content:space-around;gap:8px}
+.vc{display:flex;flex-direction:column;align-items:center;gap:3px;font-size:12px}
+.vc .ic{font-size:20px;line-height:20px}
+.vf{flex:none;position:relative;width:76px;height:176px;touch-action:none;background:linear-gradient(#262626,#151515);border-radius:8px;box-shadow:inset 0 0 6px #000}
+.vf::before{content:"";position:absolute;left:50%;margin-left:-5px;top:14px;bottom:14px;width:10px;border-radius:5px;background:#000;box-shadow:inset 0 0 4px #222}
+.vf .tk{position:absolute;top:14px;bottom:14px;width:18px;background:repeating-linear-gradient(to bottom,#cfcfcf 0 2px,transparent 2px 15.6px)}
+.vf .tk.l{left:6px}.vf .tk.r{right:6px}
+.vf .fl{display:none}
+.vf .kn{left:50%;width:52px;height:28px;margin:0 0 -14px -26px;border-radius:5px;background:linear-gradient(#f4f4f4,#b9b9b9 45%,#7a7a7a 55%,#cacaca);border:1px solid #2a2a2a;box-shadow:0 3px 5px rgba(0,0,0,.7)}
+.vf .kn::after{content:"";position:absolute;left:9px;right:9px;top:12px;height:2px;background:#2b2b2b}
+.hm{display:none;margin-top:auto;flex-direction:column;gap:6px}
+#lp>*{flex-shrink:0}
+.g2 button{padding:0 3px}
+.hf{margin:0 9px}
+.ms2{display:flex;align-items:center;gap:6px;font-size:12px}
+@media (hover:none) and (pointer:coarse){.vm{display:none}.hm{display:flex}#lp{gap:4px;padding:6px}.g2 button,#en,#pm{height:26px}}
+.cl{display:flex;align-items:center;gap:6px;border:1px solid var(--bd);border-radius:10px;padding:5px 8px}
+.cl .cn{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
+.cl input.in{flex:none;width:58px;text-align:center}
+.cg{flex:none;width:22px;height:34px;border:0;background:transparent;color:var(--mu);touch-action:none;cursor:grab;font-size:16px;padding:0}
+.cp{flex:none;padding:0 8px;height:30px}
+@media(orientation:portrait){
+#eqb{grid-column:auto}
+#mid{flex-direction:column}
+#lp{width:auto;flex:none;overflow:visible;border-bottom:1px solid var(--bd)}
+.g2{grid-template-columns:repeat(4,1fr)}
+.tb{width:40px;height:40px}
+#pp{width:46px;height:46px}
+.c{width:86px}
+}
+#ins{border-color:var(--ac);color:var(--ac);height:28px;border:1px solid var(--ac);background:transparent;border-radius:14px;padding:0 10px;font-size:12px}
+</style></head><body>
+<div id="app">
+ <header id="wv"><canvas id="cv"></canvas><span id="t1">0:00</span><span id="t2">-0:00</span></header>
+ <div id="mid">
+  <aside id="lp">
+   <div id="now">Nothing playing</div>
+   <div class="tr">
+    <button id="pv" class="tb" aria-label="Previous song"><svg viewBox="0 0 24 24"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+    <button id="rw" class="tb" aria-label="Rewind"><svg viewBox="0 0 24 24"><path d="M11 18V6l-8.5 6 8.5 6zm.5-6 8.5 6V6l-8.5 6z"/></svg></button>
+    <button id="pp" class="tb" aria-label="Play or pause all"></button>
+    <button id="ff" class="tb" aria-label="Forward"><svg viewBox="0 0 24 24"><path d="M4 18l8.5-6L4 6v12zm9-12v12l8.5-6L13 6z"/></svg></button>
+    <button id="nx" class="tb" aria-label="Next song"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/></svg></button>
+   </div>
+   <div class="g2" style="grid-template-columns:repeat(3,1fr)"><button id="mx" aria-pressed="false">Multiplay</button><button id="sh" aria-pressed="false">Shuffle</button><button id="eqb">EQ</button></div>
+   <select id="en" aria-label="When a song ends"><option value="0">⏹ Stop</option><option value="1">🔁 Repeat</option><option value="2">⏭ Continue</option></select>
+   <select id="pm" aria-label="Page play"><option value="stop">⏹ Stop page play</option><option value="cont">⏭ Continue page play</option><option value="multi">⧉ Multiple page play</option></select>
+   <div class="g2"><button id="bmn">🔈 Main</button><button id="bhd">🎧 Headset</button></div>
+   <button id="stb">⚙ Settings</button>
+   <div class="ar"><span id="tt" title="Played / total. Tap to reset played time">⏱ 0:00 / 0:00</span><button id="clr" title="Clear the songs of the page that is open">Clear</button><button id="ins" hidden>Install</button></div>
+<div class="vm"><div class="vc"><div class="vf" id="mvf" aria-label="Master volume"><i class="tk l"></i><i class="tk r"></i><div class="fl"></div><div class="kn"></div></div><span class="ic">🔊</span><span class="mvp">100%</span><span class="lb">Master</span></div><div class="vc"><div class="vf" id="hvf" aria-label="Headset level"><i class="tk l"></i><i class="tk r"></i><div class="fl"></div><div class="kn"></div></div><span class="ic">🎧</span><span class="hvp">100%</span><span class="lb">Level</span></div></div>
+   <div class="hm"><div class="ms"><span>Master</span><div class="hf" id="mvh"><div class="hl"></div><div class="hk"></div></div><span class="mvp">100%</span></div><div class="ms2"><span>🎧 Level</span><div class="hf" id="hvh"><div class="hl"></div><div class="hk"></div></div><span class="hvp">100%</span></div></div>
+  </aside>
+  <div id="cw"><div id="pg"></div><section id="ch"></section></div>
+ </div>
+</div>
+<input id="fi" type="file" accept="audio/*" multiple hidden>
+<input id="fr" type="file" accept="audio/*" hidden>
+<input id="fc" type="file" accept="audio/*" multiple hidden>
+<div id="md" hidden></div>
+<div id="ts" hidden></div>
+<script>
+const $=s=>document.querySelector(s),A=new Map(),BUS=new Map();
+const IL='<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',IP='<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>';
+const rnd=new Set();let ka=null,kaOn=false,kaLock=false;
+let songs=[],cur=null,db=null,mode=2,multi=false,ctx=null,held=[],endAt=0,shuf=false,ep=0,bo=false,bl=8,mvol=1,SEL=null,wvS=null;
+const lsv=(k,v)=>{try{localStorage.setItem(k,v)}catch(e){}},lg=k=>{try{return localStorage.getItem(k)}catch(e){return null}};
+let fadeS=1.2;{const f=lg('cs_fade');if(f!==null)fadeS=+f}
+let pages=[{id:1,name:'Page 1'}],curPg=1,pgMode='stop',mainDev='',mainName='',headDev='',headName='',headLv=1,xfS=3,duckS=.35;
+try{const p=JSON.parse(lg('cs_pages')||'null');if(p&&p.length)pages=p;curPg=+lg('cs_curpg')||pages[0].id;if(!pages.some(x=>x.id===curPg))curPg=pages[0].id;pgMode=lg('cs_pm')||'stop';mainDev=lg('cs_main')||'';mainName=lg('cs_mainn')||'';headDev=lg('cs_head')||'';headName=lg('cs_headn')||'';if(lg('cs_hlv')!==null)headLv=+lg('cs_hlv');if(lg('cs_xf')!==null)xfS=+lg('cs_xf');if(lg('cs_duck')!==null)duckS=+lg('cs_duck')}catch(e){}
+const FD=()=>Math.max(0.05,fadeS)*1000;
+function setTheme(t){lsv('cs_theme',t);if(t==='auto')document.documentElement.removeAttribute('data-theme');else document.documentElement.setAttribute('data-theme',t)}
+{const t=lg('cs_theme');if(t&&t!=='auto')document.documentElement.setAttribute('data-theme',t)}
+try{const g=k=>localStorage.getItem(k);if(g('csm')!==null)mode=+g('csm');if(mode===3){mode=2;shuf=true}multi=g('csx')==='1';if(g('css')==='1')shuf=true;ep=+g('cse')||0;bo=g('csb')==='1';if(g('csl')!==null)bl=+g('csl');if(g('csv')!==null)mvol=+g('csv')}catch(e){}
+function openDB(){return new Promise(r=>{try{const q=indexedDB.open('channel-soundboard',1);q.onupgradeneeded=()=>q.result.createObjectStore('s',{keyPath:'id'});q.onsuccess=()=>{db=q.result;r()};q.onerror=()=>r()}catch(e){r()}})}
+function tx(m,f){return new Promise(r=>{if(!db)return r(null);try{const t=db.transaction('s',m),q=f(t.objectStore('s'));t.oncomplete=()=>r(q&&q.result);t.onerror=()=>r(null)}catch(e){r(null)}})}
+const fmt=s=>{s=isFinite(s)?Math.max(0,Math.floor(s)):0;const h=Math.floor(s/3600),m=Math.floor(s%3600/60),c=String(s%60).padStart(2,'0');return h?h+':'+String(m).padStart(2,'0')+':'+c:m+':'+c};
+const esc=t=>String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const gv=a=>a._g?a._g.gain.value:(a._lv||0),sv=(a,v)=>{if(a._g)a._g.gain.value=v;else{a._lv=v;a.volume=Math.max(0,Math.min(1,v*mvol))}};
+const nm=s=>(s.startAt||s.stopAt||s.only?'⏰ ':'')+s.name,save=s=>tx('readwrite',st=>st.put(s));
+function so(){lsv('cso',JSON.stringify(songs.map(s=>s.id)))}
+function toast(m){const t=$('#ts');t.textContent=m;t.hidden=false;clearTimeout(t._t);t._t=setTimeout(()=>t.hidden=true,2600)}
+function applyMain(){try{if(ctx&&ctx.setSinkId)ctx.setSinkId(mainDev||'').catch(()=>toast('Main output is not available, using the default output'))}catch(e){}}
+function gctx(){if(!ctx){ctx=new(window.AudioContext||window.webkitAudioContext)();if(mainDev)applyMain()}return ctx}
+/* Audio buses: EQ + bass + master, one per output device */
+const PRE=[['Flat',[0,0,0,0,0]],['Pop',[-1,2,4,2,-1]],['Rock',[4,2,-1,3,4]],['Jazz',[3,2,-2,2,4]],['Classical',[4,2,-2,2,3]],['Vocal',[-3,-1,4,3,0]],['Dance',[6,4,0,2,3]]];
+function bus(id){
+ id=id||'default';let b=BUS.get(id);if(b)return b;
+ const c=gctx(),fs=[[60,'lowshelf'],[230,'peaking'],[910,'peaking'],[3600,'peaking'],[14000,'highshelf']].map(x=>{const f=c.createBiquadFilter();f.type=x[1];f.frequency.value=x[0];if(x[1]==='peaking')f.Q.value=1;return f});
+ const bs=c.createBiquadFilter();bs.type='lowshelf';bs.frequency.value=100;
+ const lm=c.createDynamicsCompressor();lm.threshold.value=-2;lm.knee.value=0;lm.ratio.value=20;lm.attack.value=.003;lm.release.value=.25;
+ const inp=c.createGain(),mg=c.createGain();let n=inp;
+ fs.concat([bs,lm,mg]).forEach(x=>{n.connect(x);n=x});
+ b={inp:inp,fs:fs,bs:bs,mg:mg};
+ if(id==='default')n.connect(c.destination);
+ else{const m=c.createMediaStreamDestination(),el=new Audio();n.connect(m);el.srcObject=m.stream;try{el.setSinkId(id).catch(()=>{})}catch(e){}el.play().catch(()=>{});b.el=el}
+ BUS.set(id,b);applyFx();return b;
+}
+function applyFx(){
+ BUS.forEach(b=>{b.fs.forEach((f,i)=>{f.gain.value=PRE[ep][1][i]});b.bs.gain.value=bo?bl:0;b.mg.gain.value=mvol});
+ A.forEach(a=>{if(!a._g&&a._lv!==undefined)a.volume=Math.max(0,Math.min(1,a._lv*mvol))});
+ document.querySelectorAll('.mvp').forEach(e=>e.textContent=Math.round(mvol*100)+'%');
+}
+function mk(s){
+ let a=A.get(s.id);if(a)return a;
+ a=new Audio();a.preload='auto';a.src=URL.createObjectURL(s.blob);a._s=s;a._f=0;a._out=false;
+ if(s.dev){try{a._sk=a.setSinkId(s.dev).catch(()=>toast('Device for "'+s.name+'" is not available, using default output'))}catch(e){}}
+ else try{const c=gctx(),n=c.createMediaElementSource(a),g=c.createGain();g.gain.value=0;n.connect(g);g.connect(bus().inp);a._g=g}catch(e){}
+ a.addEventListener('ended',()=>ended(a));a.addEventListener('play',()=>{clipResume(s);ui()});a.addEventListener('pause',()=>{if(a.ended||a._xfd)clipStop(s);else clipHold(s);ui()});
+ a.addEventListener('timeupdate',()=>{
+  const t=a.currentTime,d=t-(a._lt||0);a._lt=t;
+  if(d>0&&d<1.5&&!a.paused)s._pl=Math.min(s.dur||1e9,(s._pl||0)+d);
+  if(d>2||d<-2)clipJump(s,t,d);
+  if(!a.paused){clipTick(s,a);xfCheck(a)}
+  if(cur&&cur.id===s.id)tu();total();sweep();
+ });
+ A.set(s.id,a);return a;
+}
+function fade(a,tg,D,done){
+ const my=++a._f,from=gv(a),t0=performance.now();
+ (function f(){
+  if(a._f!==my)return;
+  const p=Math.min(1,(performance.now()-t0)/D);
+  sv(a,from+(tg()-from)*p);
+  if(p<1)setTimeout(f,40);else if(done)done();
+ })();
+}
+const ev=s=>s.mute?0:s.vol*(s._dk==null?1:s._dk);
+function start(s,ms){
+ rnd.add(s.id);s._nx=null;
+ const a=mk(s);if(ctx&&ctx.state!=='running')ctx.resume();
+ a._out=false;a._xfd=false;if(a.paused)sv(a,0);
+ if(a.currentTime<1)(s.clips||[]).forEach(c=>{c._pd=false});
+ (a._sk||Promise.resolve()).then(()=>a.play()).catch(()=>{});fade(a,()=>ev(s),ms==null?FD():ms,null);cur=s;ui();
+ if(mode===2)setTimeout(()=>{const n=nextPick(s);if(n)mk(n)},400);   // get the next song ready, so it can start without a gap
+}
+function out(a,D,cb){a._out=true;fade(a,()=>0,D||FD(),()=>{a.pause();a._out=false;if(cb)cb()})}
+function halt(a){a._f++;a._out=false;a.pause()}
+function live(a){return !a.paused&&!a._out}
+function al(){let x=false;A.forEach(a=>{if(live(a))x=true});return x}
+function sameLane(o,s){return pgMode!=='multi'||(o._s.pg||1)===(s.pg||1)}
+function play(s){
+ const a=mk(s);
+ if(live(a)){halt(a);ui();return}
+ rnd.clear();                    // a song started by hand begins a new run: Continue goes on from here
+ if(!multi)A.forEach(o=>{if(o!==a&&live(o)&&sameLane(o,s))out(o)});
+ start(s);
+}
+function pageList(pg){return songs.filter(x=>(x.pg||1)===pg)}
+function othersLive(a){let o=false;A.forEach(x=>{if(x!==a&&live(x)&&(pgMode!=='multi'||(x._s.pg||1)===(a._s.pg||1)))o=true});return o}
+function nextOf(s){
+ const L=pageList(s.pg||1),ok=x=>x!==s&&!x.only&&!(A.get(x.id)&&live(A.get(x.id)));   // songs with their own time are skipped
+ if(shuf){const C=L.filter(x=>ok(x)&&!rnd.has(x.id));return C.length?C[Math.floor(Math.random()*C.length)]:null}
+ const i=L.indexOf(s);
+ for(let j=i+1;j<L.length;j++)if(ok(L[j]))return L[j];
+ if(pgMode==='cont'){const k=pages.findIndex(p=>p.id===(s.pg||1));for(let q=k+1;q<pages.length;q++){const C=pageList(pages[q].id).filter(ok);if(C.length)return C[0]}}
+ return null;                                          // last song: nothing follows, the player stops
+}
+function nextPick(s){
+ const k=s._nx;
+ if(k&&songs.includes(k)&&k!==s&&!k.only&&!(A.get(k.id)&&live(A.get(k.id)))&&(!shuf||!rnd.has(k.id)))return k;
+ return s._nx=nextOf(s);
+}
+function xfCheck(a){      // start the next song a little before this one ends: crossfade, or no gap at all
+ if(mode!==2||a._xfd||!live(a)||!isFinite(a.duration)||!(a.duration>0))return;
+ const rem=a.duration-a.currentTime;
+ if(rem>Math.max(xfS,0.3))return;
+ if(othersLive(a))return;
+ const s=a._s,n=nextPick(s);
+ if(!n)return;
+ const na=mk(n);if(live(na))return;
+ a._xfd=true;s._pl=s.dur||s._pl;
+ out(a,Math.max(80,rem*1000));
+ na.currentTime=0;start(n,xfS>0?xfS*1000:60);
+}
+function ended(a){
+ const s=a._s;a._out=false;clipStop(s);
+ if(a._xfd){a._xfd=false;ui();return}
+ if(mode===0){ui();return}
+ if(mode===1){a.currentTime=0;a.play().catch(()=>{});return}
+ if(othersLive(a)){ui();return}   // another song is still playing: the list carries on when that one ends
+ nextAfter(s);
+}
+function nextAfter(s){const n=nextPick(s);if(!n){ui();return}const na=mk(n);if(live(na)){ui();return}na.currentTime=0;start(n)}
+function go(dir){
+ const L=pageList(cur?(cur.pg||1):curPg);if(!L.length)return;
+ const ca=cur&&A.get(cur.id),i=cur?L.indexOf(cur):-1;
+ if(dir<0&&ca&&ca.currentTime>3){ca.currentTime=0;return}
+ let j;
+ if(dir>0&&shuf&&L.length>1){j=i;while(j===i)j=Math.floor(Math.random()*L.length)}
+ else j=i<0?0:(i+dir+L.length)%L.length;
+ const s=L[j];rnd.clear();
+ if(!multi)A.forEach(o=>{if(live(o)&&o._s!==s&&sameLane(o,s))out(o)});
+ else if(ca&&live(ca)&&s!==cur)out(ca);
+ const t=A.get(s.id);if(t)t.currentTime=0;
+ start(s);
+}
+/* Clips: short sounds (dialogues, announcements) that play at set times of a song, even when the song is muted */
+function clipHold(s){if(s._cpEl&&!s._cpEl.paused){s._cpEl.pause();s._cpRes=true}}       // song paused: the clip pauses too
+function clipResume(s){if(s._cpEl&&s._cpRes){s._cpRes=false;s._cpEl.play().catch(()=>{})}}  // song plays again: the clip goes on
+function clipStop(s){                                  // the song's time is over: clip stops and its timers become inactive
+ if(s._cpEl){s._cpEl.pause();try{URL.revokeObjectURL(s._cpEl.src)}catch(e){}s._cpEl=null}
+ s._cp=false;s._cpRes=false;s._dk=1;
+ if(s.clipsOn){s.clipsOn=false;save(s)}
+}
+function clipJump(s,t,d){(s.clips||[]).forEach(c=>{c._pd=d>0?(c._pd||c.at<t-1):c.at<t-1})}
+function clipTick(s,a){
+ if(!s.clipsOn||!s.clips||!s.clips.length||s._cp||a._xfd)return;
+ const t=a.currentTime;
+ for(const c of s.clips){if(!c._pd&&t>=c.at&&t<c.at+600){playClip(s,c);return}}
+}
+function playClip(s,c){
+ c._pd=true;s._cp=true;
+ const el=new Audio(URL.createObjectURL(c.blob));el.volume=Math.max(0,Math.min(1,c.vol*mvol));
+ if(s.dev&&el.setSinkId){try{el.setSinkId(s.dev).catch(()=>{})}catch(e){}}
+ const a=A.get(s.id),back=()=>{if(s._cpEl!==el)return;s._cpEl=null;s._cp=false;s._cpRes=false;s._dk=1;URL.revokeObjectURL(el.src);if(a&&live(a))fade(a,()=>ev(s),500,null)};
+ s._cpEl=el;
+ s._dk=duckS;if(a&&live(a))fade(a,()=>ev(s),250,null);
+ el.onended=back;el.onerror=back;el.play().catch(back);
+}
+/* Waveform */
+async function peaks(s){
+ if(s._pk!==undefined)return s._pk;
+ s._pk=null;
+ try{
+  if(s.blob.size>30e6)return null;
+  const buf=await gctx().decodeAudioData(await s.blob.arrayBuffer()),d=buf.getChannelData(0),N=320,k=Math.max(1,Math.floor(d.length/N)),st=Math.max(1,k>>6),p=[];
+  for(let i=0;i<N;i++){let m=0;for(let j=i*k;j<(i+1)*k&&j<d.length;j+=st){const v=Math.abs(d[j]);if(v>m)m=v}p.push(m)}
+  const mx=Math.max.apply(null,p)||1;s._pk=p.map(v=>v/mx);
+ }catch(e){}
+ return s._pk;
+}
+function draw(){
+ const c=$('#cv'),w=c.clientWidth,h=c.clientHeight,r=window.devicePixelRatio||1;
+ if(!w||!h)return;
+ if(c.width!==Math.round(w*r)||c.height!==Math.round(h*r)){c.width=Math.round(w*r);c.height=Math.round(h*r)}
+ const x=c.getContext('2d');x.setTransform(r,0,0,r,0,0);x.clearRect(0,0,w,h);
+ const a=cur&&A.get(cur.id),d=a&&a.duration,f=d?a.currentTime/d:0,p=cur&&cur._pk,cs=getComputedStyle(document.documentElement),ac=cs.getPropertyValue('--ac').trim(),mu=cs.getPropertyValue('--bd').trim(),N=p?p.length:0;
+ if(N){const bw=w/N;for(let i=0;i<N;i++){const bh=Math.max(2,p[i]*h*.8);x.fillStyle=i/N<f?ac:mu;x.fillRect(i*bw,(h-bh)/2,Math.max(1,bw-1),bh)}}
+ else{x.fillStyle=mu;x.fillRect(0,h/2-1,w,2);x.fillStyle=ac;x.fillRect(0,h/2-1,w*f,2)}
+ x.fillStyle=ac;x.fillRect(Math.max(0,f*w-1),0,2,h);
+}
+const cv=$('#cv');let sd=false;
+const sx=e=>{const a=cur&&A.get(cur.id);if(a&&a.duration){const r=cv.getBoundingClientRect();a.currentTime=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width))*a.duration;tu()}};
+cv.onpointerdown=e=>{sd=true;cv.setPointerCapture(e.pointerId);sx(e)};
+cv.onpointermove=e=>{if(sd)sx(e)};
+cv.onpointerup=cv.onpointercancel=()=>{sd=false};
+addEventListener('resize',draw);
+function tu(){
+ const a=cur&&A.get(cur.id),d=a&&a.duration,t=a?a.currentTime:0;
+ $('#t1').textContent=fmt(t);$('#t2').textContent='-'+fmt(d?d-t:0);draw();
+ try{if(a&&d&&isFinite(d))navigator.mediaSession.setPositionState({duration:d,position:Math.min(t,d),playbackRate:1})}catch(e){}
+}
+function msu(){
+ if(!('mediaSession' in navigator))return;
+ try{const m=navigator.mediaSession;if(kaOn&&!al()){m.metadata=new MediaMetadata({title:'Waiting for scheduled start',artist:'Channel Soundboard'});m.playbackState='playing';return}m.metadata=cur?new MediaMetadata({title:cur.name,artist:'Channel Soundboard'}):null;m.playbackState=al()?'playing':'paused'}catch(e){}
+}
+if('mediaSession' in navigator){
+ const m=navigator.mediaSession,h=(n,f)=>{try{m.setActionHandler(n,f)}catch(e){}};
+ h('play',()=>{if(!al())$('#pp').click()});h('pause',()=>{if(al())$('#pp').click()});
+ h('previoustrack',()=>go(-1));h('nexttrack',()=>go(1));
+ h('seekbackward',()=>seekBy(-10));h('seekforward',()=>seekBy(10));
+ h('seekto',d=>{const a=cur&&A.get(cur.id);if(a&&isFinite(d.seekTime))a.currentTime=d.seekTime});
+}
+/* Channels */
+function paint(c,s){const v=s?s.vol:1;c.querySelector('.fl').style.height=v*100+'%';c.querySelector('.kn').style.bottom=v*100+'%';c.querySelector('.pc').textContent=Math.round(v*100)+'%'}
+function fader(c,s){
+ const f=c.querySelector('.fd');let on=false;
+ const set=e=>{const r=f.getBoundingClientRect();s.vol=Math.max(0,Math.min(1,1-(e.clientY-r.top)/r.height));paint(c,s);const a=A.get(s.id);if(a&&live(a))sv(a,ev(s))};
+ f.onpointerdown=e=>{on=true;f.setPointerCapture(e.pointerId);set(e)};
+ f.onpointermove=e=>{if(on)set(e)};
+ f.onpointerup=f.onpointercancel=()=>{if(on){on=false;save(s)}};
+}
+function mtp(c,s){const b=c.querySelector('.mt');b.textContent=s&&s.mute?'🔇 Muted':'🔊 Mute';b.setAttribute('aria-pressed',!!(s&&s.mute))}
+function strip(s){
+ const c=document.createElement('div');c.className='c'+(s?'':' emp');
+ c.innerHTML='<span class="nb"></span><button class="dv"></button><button class="mt" aria-label="Mute this channel"></button><div class="cr"><button class="cu" data-k="cue" title="Pre-listen on the headset">🎧</button><button class="cu" data-k="main" title="Send to Main">⇒ Main</button></div><button class="pb">'+IL+'</button><div class="fd"><div class="fl"></div><div class="kn"></div></div><span class="pc"></span><button class="cb">🎙 Clips</button><button class="ad"><span class="nm"></span><span class="du"></span></button><button class="dg" aria-label="Hold and drag to move this song"><svg viewBox="0 0 24 10" width="22" height="9"><circle cx="5" cy="2" r="1.6"/><circle cx="12" cy="2" r="1.6"/><circle cx="19" cy="2" r="1.6"/><circle cx="5" cy="8" r="1.6"/><circle cx="12" cy="8" r="1.6"/><circle cx="19" cy="8" r="1.6"/></svg></button>';
+ c.querySelector('.dv').textContent='🔈 '+(s&&s.devn?s.devn:'Default');
+ if(s){c.dataset.id=s.id;c.querySelector('.cb').textContent='🎙 Clips'+((s.clips&&s.clips.length)?' ('+s.clips.length+')':'');c.querySelector('.nm').textContent=nm(s);c.querySelector('.du').textContent=s.dur?fmt(s.dur):'--:--';fader(c,s)}
+ else c.querySelector('.nm').textContent='+ Add song';
+ paint(c,s);mtp(c,s);return c;
+}
+function render(){
+ const g=$('#ch');g.textContent='';pageList(curPg).forEach(s=>g.append(strip(s)));g.append(strip(null));total();labels();pgBar();
+}
+function labels(){      // song number, its own time / time of all songs up to it
+ let sum=0,i=0;
+ document.querySelectorAll('#ch .c[data-id]').forEach(c=>{
+  const s=songs.find(x=>x.id===+c.dataset.id);if(!s)return;
+  i++;sum+=s.dur||0;
+  c.querySelector('.nb').textContent='#'+i;
+  c.querySelector('.du').textContent=i===1?(s.dur?fmt(s.dur):'--:--'):((s.dur?fmt(s.dur):'--:--')+'/'+fmt(sum));
+ });
+}
+function savePg(){lsv('cs_pages',JSON.stringify(pages));lsv('cs_curpg',curPg)}
+function pgBar(){
+ const b=$('#pg');b.textContent='';
+ pages.forEach(p=>{const x=document.createElement('button');x.textContent=(p.startAt||p.stopAt?'⏰ ':'')+p.name;x.dataset.p=p.id;x.setAttribute('aria-pressed',p.id===curPg);b.append(x)});
+ const a=document.createElement('button');a.textContent='+ Page';a.dataset.p='new';b.append(a);
+}
+function ui(){
+ let n=0;A.forEach(o=>{if(!o.paused)n++});
+ $('#now').textContent=cur?cur.name+(n>1?'  +'+(n-1):''):'Nothing playing';
+ $('#pp').innerHTML=n?IP:IL;
+ document.querySelectorAll('.c[data-id]').forEach(c=>{
+  const o=A.get(+c.dataset.id),on=!!o&&!o.paused,b=c.querySelector('.pb');
+  c.classList.toggle('on',on);if(b._i!==on){b._i=on;b.innerHTML=on?IP:IL}
+  const sc=songs.find(x=>x.id===+c.dataset.id),q=c.querySelector('[data-k="cue"]');if(q)q.setAttribute('aria-pressed',!!(sc&&sc._cue&&!sc._cue.paused));
+ });
+ $('#en').value=mode;$('#sh').setAttribute('aria-pressed',shuf);$('#mx').setAttribute('aria-pressed',multi);
+ if(cur!==wvS){wvS=cur;if(cur)peaks(cur).then(draw)}
+ tu();msu();kaSync();
+}
+$('#ch').addEventListener('click',e=>{
+ const c=e.target.closest('.c');if(!c)return;
+ const s=songs.find(x=>x.id===+c.dataset.id);
+ if(e.target.closest('.ad')){if(!s)$('#fi').click();else{SEL=s;sheet(sCh(s))}}
+ else if(!s)return;
+ else if(e.target.closest('.mt')){s.mute=!s.mute;mtp(c,s);const a=A.get(s.id);if(a&&live(a))fade(a,()=>ev(s),200,null);save(s)}
+ else if(e.target.closest('.cb')){SEL=s;sheet(sCl(s))}
+ else if(e.target.closest('.cu')){e.target.closest('.cu').dataset.k==='cue'?cueToggle(s):sendMain(s)}
+ else if(e.target.closest('.pb'))play(s);
+ else if(e.target.closest('.dv'))openDev(s);
+});
+/* Transport */
+function seekBy(d){const a=cur&&A.get(cur.id);if(!a||!a.duration)return;a.currentTime=Math.max(0,Math.min(a.duration,a.currentTime+d))}
+function hold(b,dir){
+ let t,iv,hd=false,down=false;
+ b.addEventListener('pointerdown',()=>{down=true;hd=false;t=setTimeout(()=>{hd=true;iv=setInterval(()=>seekBy(dir*4),120)},350)});
+ const end=ok=>{clearTimeout(t);clearInterval(iv);if(ok&&down&&!hd)seekBy(dir*10);down=false};
+ b.addEventListener('pointerup',()=>end(true));
+ ['pointerleave','pointercancel'].forEach(n=>b.addEventListener(n,()=>end(false)));
+ b.addEventListener('contextmenu',e=>e.preventDefault());
+}
+hold($('#rw'),-1);hold($('#ff'),1);
+$('#pv').onclick=()=>go(-1);$('#nx').onclick=()=>go(1);
+$('#pp').onclick=()=>{
+ if(al()){held=[];A.forEach(a=>{if(live(a)){held.push(a._s);halt(a)}});ui();return}
+ const c0=cur;
+ if(held.length){const h=held;held=[];h.forEach(s=>{if(songs.includes(s))start(s)});if(c0)cur=c0}
+ else if(cur)start(cur);
+ ui();
+};
+$('#mx').onclick=()=>{
+ multi=!multi;lsv('csx',multi?'1':'0');
+ if(!multi&&cur)A.forEach((o,id)=>{if(id!==cur.id&&live(o))out(o)});
+ ui();
+};
+$('#sh').onclick=()=>{shuf=!shuf;lsv('css',shuf?'1':'0');ui()};
+$('#en').onchange=e=>{mode=+e.target.value;lsv('csm',mode);ui()};
+function vfader(el,get,set,inset){      // standing fader; inset keeps the knob inside the slot
+ const L=el.querySelector('.fl'),K=el.querySelector('.kn'),I=inset||0;let on=false;
+ const paint=()=>{const v=get();if(L)L.style.height=v*100+'%';K.style.bottom=I?'calc('+I+'px + '+v+' * (100% - '+2*I+'px))':v*100+'%'};
+ const f=e=>{const r=el.getBoundingClientRect();set(Math.max(0,Math.min(1,1-(e.clientY-r.top-I)/Math.max(1,r.height-2*I))));paint()};
+ el.onpointerdown=e=>{on=true;el.setPointerCapture(e.pointerId);f(e)};
+ el.onpointermove=e=>{if(on)f(e)};
+ el.onpointerup=el.onpointercancel=()=>{on=false};
+ paint();return paint;
+}
+function hfader(el,get,set){           // lying fader (phones)
+ const L=el.querySelector('.hl'),K=el.querySelector('.hk');let on=false;
+ const paint=()=>{const v=get();L.style.width=v*100+'%';K.style.left=v*100+'%'};
+ const f=e=>{const r=el.getBoundingClientRect();set(Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)));paint()};
+ el.onpointerdown=e=>{on=true;el.setPointerCapture(e.pointerId);f(e)};
+ el.onpointermove=e=>{if(on)f(e)};
+ el.onpointerup=el.onpointercancel=()=>{on=false};
+ paint();return paint;
+}
+const PM=[],PH=[];
+const setM=v=>{mvol=v;lsv('csv',mvol);applyFx();PM.forEach(f=>f())};
+const setH=v=>{headLv=v;lsv('cs_hlv',v);document.querySelectorAll('.hvp').forEach(e=>e.textContent=Math.round(v*100)+'%');songs.forEach(s=>{if(s._cue)s._cue.volume=v});PH.forEach(f=>f())};
+PM.push(vfader($('#mvf'),()=>mvol,setM,14),hfader($('#mvh'),()=>mvol,setM));
+PH.push(vfader($('#hvf'),()=>headLv,setH,14),hfader($('#hvh'),()=>headLv,setH));
+document.querySelectorAll('.hvp').forEach(e=>e.textContent=Math.round(headLv*100)+'%');
+$('#pm').value=pgMode;$('#pm').onchange=e=>{pgMode=e.target.value;lsv('cs_pm',pgMode)};
+/* Timers: global stop time + per-song start/stop times */
+function label(){}
+function tick(){
+ if(!endAt)return;
+ if(Date.now()>=endAt){endAt=0;held=[];A.forEach(a=>{if(live(a))out(a,4000)});ui()}
+ label();
+}
+const mins=t=>{if(!t)return -1;const p=t.split(':').map(Number);return p[0]*60+p[1]};
+function rn(s){const e=document.querySelector('.c[data-id="'+s.id+'"] .nm');if(e)e.textContent=nm(s)}
+function sched(){
+ const d=new Date(),n=d.getHours()*60+d.getMinutes();
+ pages.forEach(p=>{
+  const a=mins(p.startAt),b=mins(p.stopAt);
+  if(a>=0&&n>=a&&n<a+2){p.startAt='';savePg();pgBar();const L=pageList(p.id),f=L.find(x=>!x.only)||L[0];if(f){const o=A.get(f.id);if(!(o&&live(o))){rnd.clear();if(!multi)A.forEach(x=>{if(live(x)&&x._s!==f&&sameLane(x,f))out(x)});start(f)}}}
+  if(b>=0&&n>=b&&n<b+2){p.stopAt='';savePg();pgBar();A.forEach(x=>{if(live(x)&&(x._s.pg||1)===p.id)out(x,2500)})}
+ });
+ songs.forEach(s=>{
+  const a=mins(s.startAt),b=mins(s.stopAt),o=A.get(s.id);
+  if(a>=0&&n>=a&&n<a+2){
+   s.startAt='';save(s);rn(s);
+   if(!(o&&live(o))){rnd.clear();if(!multi)A.forEach(x=>{if(live(x)&&x._s!==s&&sameLane(x,s))out(x)});start(s)}
+  }
+  if(b>=0&&n>=b&&n<b+2){
+   s.stopAt='';save(s);rn(s);
+   if(o&&live(o))out(o,2500,()=>{if(mode===2)nextAfter(s)});
+  }
+ });
+}
+/* Keep the page awake while a scheduled start is waiting (phone locked / screen off) */
+function kaEl(){
+ if(ka)return ka;
+ const sr=8000,n=sr*2,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
+ w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,sr,true);v.setUint32(28,sr*2,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+ for(let i=0;i<n;i++)v.setInt16(44+i*2,Math.sin(2*Math.PI*20*i/sr)*160,true);
+ ka=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'})));ka.loop=true;return ka;
+}
+function audible(){let x=false;A.forEach(a=>{if(live(a)&&ev(a._s)>0)x=true});return x}
+function silentPlay(){let x=false;A.forEach(a=>{if(live(a)&&ev(a._s)<=0)x=true});return x}
+function kaSync(){
+ const was=kaOn,need=songs.some(s=>s.startAt)||pages.some(p=>p.startAt)||al();
+ try{
+  if(need){
+   if(!kaLock&&navigator.locks){kaLock=true;navigator.locks.request('cs-keepalive',()=>new Promise(()=>{}))}
+   const k=kaEl();if(k.paused)k.play().catch(()=>{kaOn=false});kaOn=!k.paused;
+  }else{if(ka&&!ka.paused)ka.pause();kaOn=false}
+ }catch(e){kaOn=false}
+ if(was!==kaOn)msu();
+}
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)sweep()});
+function sweep(){tick();sched();kaSync()}
+setInterval(sweep,1000);
+/* Sheets (timer, equalizer, channel menu, sound device) */
+function sheet(h){const m=$('#md');m.innerHTML='<div class="bx">'+h+'</div>';m.hidden=false}
+function shut(){$('#md').hidden=true;SEL=null}
+const sTm=()=>'<h3>Stop everything at</h3><div class="ln"><input id="ct" class="in" type="time" aria-label="Stop time"><button class="sb" data-a="set">Set</button></div><button class="sb" data-a="cx">Cancel timer</button><button class="sb" data-a="x">Close</button>';
+const sEq=()=>'<h3>Equalizer</h3><div class="pl">'+PRE.map((p,i)=>'<button data-a="pre" data-i="'+i+'" aria-pressed="'+(i===ep)+'">'+p[0]+'</button>').join('')+'</div><div class="ln"><button class="sb" data-a="bb" aria-pressed="'+bo+'">Bass boost</button><input id="bl" type="range" min="0" max="12" step="1" value="'+bl+'"><span id="bt" class="lb">+'+bl+' dB</span></div><button class="sb" data-a="x">Close</button>';
+const sCh=s=>'<h3>'+esc(s.name)+'</h3><div class="ln"><span class="lb">Start</span><input class="in" type="time" data-t="s" value="'+(s.startAt||'')+'"><span class="lb">Stop</span><input class="in" type="time" data-t="e" value="'+(s.stopAt||'')+'"></div><button class="sb" data-a="clt">Clear start/stop times</button><label class="ln"><input type="checkbox" data-o="1"'+(s.only?' checked':'')+'><span class="lb">Only at its own time (Continue and Shuffle skip this song)</span></label><div class="ln"><span class="lb">Page</span><select class="in" data-mp="1">'+pages.map(p=>'<option value="'+p.id+'"'+((s.pg||1)===p.id?' selected':'')+'>'+esc(p.name)+'</option>').join('')+'</select></div><div class="ln"><button class="sb" data-a="rp">Replace song</button><button class="sb" data-a="del">Delete</button></div><button class="sb" data-a="x">Close</button>';
+/* Hold the grip under a song and drag it left or right to move it */
+$('#ch').addEventListener('pointerdown',e=>{
+ const h=e.target.closest('.dg');if(!h)return;
+ const c=h.closest('.c');if(!c||!c.dataset.id)return;
+ e.preventDefault();
+ const g=c.parentNode,hw=c.offsetWidth;let x=e.clientX;const off=x-c.getBoundingClientRect().left;
+ c.classList.add('dr');
+ const place=()=>{
+  c.style.transform='none';
+  const mid=()=>x-off+hw/2;
+  let p=c.previousElementSibling,n=c.nextElementSibling;
+  while(p&&mid()<p.getBoundingClientRect().left+p.offsetWidth/2){g.insertBefore(p,c.nextSibling);p=c.previousElementSibling}
+  while(n&&n.dataset.id&&mid()>n.getBoundingClientRect().left+n.offsetWidth/2){g.insertBefore(n,c);n=c.nextElementSibling}
+  c.style.transform='translateX('+(x-off-c.getBoundingClientRect().left)+'px)';
+ };
+ const mv=ev=>{x=ev.clientX;place()};
+ const iv=setInterval(()=>{const r=g.getBoundingClientRect();if(x<r.left+36)g.scrollLeft-=10;else if(x>r.right-36)g.scrollLeft+=10;else return;place()},16);
+ const up=()=>{
+  clearInterval(iv);removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);
+  c.style.transform='';c.classList.remove('dr');
+  const ps=[...g.children].filter(q=>q.dataset.id).map(q=>songs.find(s=>s.id===+q.dataset.id));let k=0;songs=songs.map(x=>(x.pg||1)===curPg?ps[k++]:x);so();labels();
+ };
+ addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up);
+ place();
+});
+const tmin=t=>{const p=String(t||'').trim().split(':').map(Number);return(!p.length||p.some(isNaN))?null:p.reduce((a,v)=>a*60+v,0)};
+const sCl=s=>{
+ const L=s.clips||[];
+ return '<h3>Clips - '+esc(s.name)+'</h3><p class="lb" style="margin:0">Set the time (m:ss of this song) for every clip, then press <b>Apply</b>. A clip plays once at its time, even when this song is muted. Pausing the song pauses the clip timers.</p>'
+ +'<div class="ln"><button class="sb" data-a="cadd">+ Add Clip</button><button class="sb" data-a="cclr">Clear Clips</button></div>'
+ +'<div id="cls">'+(L.length?L.map((c,i)=>'<div class="cl" data-ci="'+i+'"><button class="cg" aria-label="Hold and drag to move up or down">⋮⋮</button><span class="cn">'+(i+1)+'. '+esc(c.name)+'</span><button class="sb cp" data-a="cplay" data-i="'+i+'" title="Play / pause this clip">▶</button><button class="sb cp" data-a="ccue" data-i="'+i+'" title="Pre-listen on the headset">🎧</button><input class="in" data-ct="1" value="'+fmt(c.at)+'" aria-label="Play at (m:ss)"><button class="sb cp" data-a="cdel" data-i="'+i+'" title="Remove">✕</button></div>').join(''):'<p class="lb">No clips yet.</p>')+'</div>'
+ +'<button class="sb" data-a="capply">'+(s.clipsOn?'Apply (active)':'Apply')+'</button><button class="sb" data-a="x">Close</button>';
+};
+let pv=null;
+function clipPreview(s,i,head){
+ const c=(s.clips||[])[i];if(!c)return;
+ const key=s.id+':'+i+':'+(head?'h':'m');
+ if(pv&&!pv.paused&&pv._k===key){pv.pause();pv=null;return}
+ if(pv){pv.pause();pv=null}
+ const a=new Audio(URL.createObjectURL(c.blob));a._k=key;a.volume=head?headLv:Math.min(1,mvol);a.onended=()=>URL.revokeObjectURL(a.src);
+ const go=()=>a.play().catch(()=>{});
+ if(head){if(!headDev||!a.setSinkId){toast('Choose a Headset output first (🎧 Headset button)');return}a.setSinkId(headDev).then(go,()=>toast('Headset output is not available'))}else go();
+ pv=a;
+}
+$('#md').addEventListener('pointerdown',e=>{
+ const g=e.target.closest('.cg');if(!g||!SEL)return;e.preventDefault();
+ const row=g.closest('.cl'),box=row.parentNode;row.style.opacity='.55';
+ const mv=ev=>{const r=[...box.children].find(q=>q!==row&&q.classList.contains('cl')&&ev.clientY>=q.getBoundingClientRect().top&&ev.clientY<=q.getBoundingClientRect().bottom);if(!r)return;const rb=r.getBoundingClientRect();if(ev.clientY<rb.top+rb.height/2)box.insertBefore(row,r);else box.insertBefore(row,r.nextSibling)};
+ const up=()=>{removeEventListener('pointermove',mv);removeEventListener('pointerup',up);removeEventListener('pointercancel',up);row.style.opacity='';const s=SEL;if(!s)return;const old=(s.clips||[]).slice();s.clips=[...box.querySelectorAll('.cl')].map(q=>old[+q.dataset.ci]);s.clipsOn=false;save(s);sheet(sCl(s))};
+ addEventListener('pointermove',mv);addEventListener('pointerup',up);addEventListener('pointercancel',up);
+});
+const sPg=()=>{const p=pages.find(x=>x.id===curPg);return '<h3>Page</h3><div class="ln"><input id="pn" class="in" value="'+esc(p.name)+'" maxlength="24"><button class="sb" data-a="prn">Rename</button></div>'
+ +'<div class="lb">Page timer: the page starts at its start time and stops at its stop time</div><div class="ln"><span class="lb">Start</span><input class="in" type="time" data-pt="s" value="'+(p.startAt||'')+'"><span class="lb">Stop</span><input class="in" type="time" data-pt="e" value="'+(p.stopAt||'')+'"></div><button class="sb" data-a="ptc">Clear page timer</button>'
+ +'<button class="sb" data-a="pdu">Duplicate this page</button><button class="sb" data-a="pdl">Delete this page (its songs move to another page)</button><button class="sb" data-a="x">Close</button>'};
+$('#pg').addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.dataset.p==='new'){const id=Math.max(0,...pages.map(p=>p.id))+1;pages.push({id,name:'Page '+(pages.length+1)});curPg=id;savePg();render();ui();return}
+ const id=+b.dataset.p;
+ if(id===curPg)sheet(sPg());else{curPg=id;savePg();render();ui()}
+});
+function outLbl(){const f=(n,d)=>{n=n||d;return n.length>16?n.slice(0,15)+'…':n};$('#bmn').textContent='🔈 Main: '+f(mainName,'Default');$('#bhd').textContent='🎧 Headset: '+f(headName,'Default')}
+function sameOut(){if((mainDev||'')===(headDev||''))toast('Main and Headset are the same output: the dance floor would hear the pre-listen. Choose different outputs.')}
+async function openOut(kind){
+ if(!window.HTMLMediaElement||!HTMLMediaElement.prototype.setSinkId||!navigator.mediaDevices){toast('This device cannot choose sound outputs yet. It needs Chrome or Edge on a computer.');return}
+ let L=[];try{L=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='audiooutput'&&d.deviceId&&d.deviceId!=='default')}catch(e){}
+ const cu=kind==='main'?mainDev:headDev;
+ sheet('<h3>'+(kind==='main'?'Main output (dance floor)':'Headset output (pre-listen)')+'</h3>'+(L.length?'':'<p class="lb" style="margin:0">Names stay hidden until you allow the microphone once (nothing is recorded). Tap "Show my devices".</p>')+'<button class="sb" data-a="oset" data-k="'+kind+'" data-id="" aria-pressed="'+!cu+'">Default output</button>'+L.map((d,i)=>{const n=esc(d.label||'Device '+(i+1));return '<button class="sb" data-a="oset" data-k="'+kind+'" data-id="'+esc(d.deviceId)+'" data-n="'+n+'" aria-pressed="'+(d.deviceId===cu)+'">'+n+'</button>'}).join('')+'<button class="sb" data-a="onames" data-k="'+kind+'">Show my devices / Refresh list</button><button class="sb" data-a="x">Close</button>');
+}
+$('#bmn').onclick=()=>openOut('main');$('#bhd').onclick=()=>openOut('head');
+function cueToggle(s){
+ if(s._cue&&!s._cue.paused){s._cue.pause();ui();return}
+ if(!window.HTMLMediaElement||!HTMLMediaElement.prototype.setSinkId){toast('Pre-listen on a separate headset needs a device that can choose outputs (Chrome or Edge on a computer).');return}
+ if(!headDev){toast('Choose the Headset output first (🎧 Headset button).');return}
+ const a=s._cue||(s._cue=new Audio(URL.createObjectURL(s.blob)));
+ a.volume=headLv;a.onplay=a.onpause=a.onended=ui;
+ a.setSinkId(headDev).then(()=>a.play(),()=>toast('Headset output is not available')).catch(()=>{});
+ ui();
+}
+function sendMain(s){
+ const c=s._cue;if(!c||c.paused){toast('Press 🎧 first, listen, then send the song to Main.');return}
+ const pos=c.currentTime;c.pause();
+ if(!multi)A.forEach(o=>{if(live(o)&&o._s!==s&&sameLane(o,s))out(o)});
+ const m=mk(s);m.currentTime=pos;rnd.clear();start(s);ui();
+}
+const sSt=()=>'<h3>Settings</h3><div class="lb">Fade in / out (play, pause, crossfade)</div><div class="ln"><input id="fd" type="range" min="0" max="6" step="0.5" value="'+fadeS+'"><span id="fdt" class="lb">'+(fadeS?fadeS+' s':'Off')+'</span></div>'
+ +'<div class="lb">Crossfade between songs (Continue)</div><div class="ln"><input id="xf" type="range" min="0" max="10" step="0.5" value="'+xfS+'"><span id="xft" class="lb">'+(xfS?xfS+' s':'Gapless')+'</span></div>'
+ +'<div class="lb">Lower the song while a clip plays</div><div class="ln"><input id="dk" type="range" min="0" max="1" step="0.05" value="'+duckS+'"><span id="dkt" class="lb">'+Math.round(duckS*100)+'%</span></div>'
+ +'<div class="lb">Display theme</div><div class="pl">'+['auto','dark','light','blue','green'].map(t=>'<button data-a="th" data-v="'+t+'" aria-pressed="'+((lg('cs_theme')||'auto')===t)+'">'+t[0].toUpperCase()+t.slice(1)+'</button>').join('')+'</div>'
+ +'<div class="lb">Audio</div><button class="sb" data-a="eqo">Equalizer &amp; bass boost</button>'
+ +'<details><summary>About</summary><p><b>Channel Soundboard v11</b><br>Creator: <b>Balram Sevak</b></p><p>A free, offline soundboard mixer. Every song is a channel with its own fader, mute and play button.</p></details><details><summary>Features</summary><ul><li>Unlimited channels, per-channel volume and mute</li><li>Multiplay, crossfade, shuffle, repeat, continue</li><li>Equalizer presets and bass boost</li><li>Timer and per-song start/stop times</li><li>Waveform seek bar, rewind/forward</li><li>Pages (Page 1, Page 2 ...) with Stop / Continue / Multiple page play, a timer for each page and a Duplicate button</li><li>Clips: dialogues that play at set times of a song, even when it is muted</li><li>Main output and headset pre-listen (where the device allows it)</li><li>Song numbers with running totals</li><li>Works offline, installs like an app</li></ul></details><details><summary>How to play</summary><ol><li>Tap <b>+ Add song</b> and pick songs from your phone.</li><li>Tap the round play button on a channel.</li><li>Drag the fader for volume, tap the speaker button to mute only that song.</li><li>Choose Stop, Repeat or Continue for what happens when a song ends.</li><li>Hold the dotted bar under a song and drag it to move it. Tap the song name for start/stop time, page, replace or delete.</li><li>Tap <b>Clips</b> on a channel to add dialogue clips and set when they play.</li><li>Use <b>+ Page</b> for more lists. A song with its own start time is skipped by Continue.</li></ol></details><details><summary>Why it is useful</summary><p>Play many sounds together or one after another, prepare a playlist for a programme, and let the timer start or stop songs for you, all without internet.</p></details><details><summary>Other</summary><ul><li>Songs stay on this device only; nothing is uploaded.</li><li>Timers need the app open.</li><li>Fade 0 = no fade, 6 = slow crossfade.</li></ul></details>'+'<button class="sb" data-a="x">Close</button>';
+$('#eqb').onclick=()=>sheet(sEq());
+$('#stb').onclick=()=>sheet(sSt());
+async function openDev(s){
+ if(!window.HTMLMediaElement||!HTMLMediaElement.prototype.setSinkId||!navigator.mediaDevices){toast('This browser cannot choose sound devices. Try Chrome.');return}
+ let L=[];try{L=(await navigator.mediaDevices.enumerateDevices()).filter(d=>d.kind==='audiooutput'&&d.deviceId&&d.deviceId!=='default')}catch(e){}
+ SEL=s;
+ const emb=window.self!==window.top,nt=L.length?'':'<p class="lb" style="margin:0">'+(emb?'Chrome blocks the output-device list while this page runs inside another page. Open the app on its own: the GitHub Pages link, the installed app, or the downloaded index.html file.':'Chrome hides the device list until you allow it. Tap "Show my devices" and allow the microphone once (only to reveal device names; nothing is recorded).')+'</p>';
+ sheet('<h3>Sound device for this channel <small>(v11)</small></h3>'+nt+'<p class="lb" style="margin:0">Each channel keeps its own device. Equalizer and bass boost work only on channels that use the default output.</p>'+'<button class="sb" data-a="dev" data-id="" aria-pressed="'+!s.dev+'">Default output</button>'+L.map((d,i)=>{const n=esc(d.label||'Device '+(i+1));return '<button class="sb" data-a="dev" data-id="'+esc(d.deviceId)+'" data-n="'+n+'" aria-pressed="'+(d.deviceId===s.dev)+'">'+n+'</button>'}).join('')+(navigator.mediaDevices.selectAudioOutput?'<button class="sb" data-a="pick">Choose another device…</button>':'')+(L.length?'':'<button class="sb" data-a="names">Show my devices</button>')+'<button class="sb" data-a="x">Close</button>');
+}
+function beep(id){
+ try{
+  const n=22050,b=new ArrayBuffer(44+n*2),v=new DataView(b),w=(o,t)=>{for(let i=0;i<t.length;i++)v.setUint8(o+i,t.charCodeAt(i))};
+  w(0,'RIFF');v.setUint32(4,36+n*2,true);w(8,'WAVEfmt ');v.setUint32(16,16,true);v.setUint16(20,1,true);v.setUint16(22,1,true);v.setUint32(24,22050,true);v.setUint32(28,44100,true);v.setUint16(32,2,true);v.setUint16(34,16,true);w(36,'data');v.setUint32(40,n*2,true);
+  for(let i=0;i<n;i++)v.setInt16(44+i*2,Math.sin(i*2*Math.PI*660/22050)*9000*Math.min(1,i/800,(n-i)/800),true);
+  const a=new Audio(URL.createObjectURL(new Blob([b],{type:'audio/wav'}))),go=()=>a.play().catch(()=>{});
+  a.onended=()=>URL.revokeObjectURL(a.src);
+  if(id&&a.setSinkId)a.setSinkId(id).then(go,()=>{toast('Beep could not use that device');go()});else go();
+ }catch(e){}
+}
+async function setDev(s,id,n){
+ if(id){try{await new Audio().setSinkId(id)}catch(e){toast(e&&e.name==='NotAllowedError'?'Chrome blocked this here. Open the app on its own page.':'Cannot use that device');return}}
+ const a=A.get(s.id),was=!!a&&!a.paused,pos=a?a.currentTime:0;
+ if(a){halt(a);URL.revokeObjectURL(a.src);A.delete(s.id)}
+ s.dev=id;s.devn=id?(n||'Device'):'';
+ save(s);shut();render();ui();
+ if(was){mk(s).currentTime=pos;start(s)}
+ beep(id);toast('"'+s.name+'" now plays on: '+(id?s.devn:'Default output')+' - you should hear a short beep there');
+}
+$('#md').addEventListener('click',async e=>{
+ if(e.target.id==='md')return shut();
+ const b=e.target.closest('[data-a]');if(!b)return;
+ const k=b.dataset.a,s=SEL;
+ if(k==='x')shut();
+ else if(k==='th'){setTheme(b.dataset.v);sheet(sSt())}
+ else if(k==='eqo')sheet(sEq());
+ else if(k==='pre'){ep=+b.dataset.i;lsv('cse',ep);applyFx();sheet(sEq())}
+ else if(k==='bb'){bo=!bo;lsv('csb',bo?'1':'0');applyFx();sheet(sEq())}
+ else if(k==='prn'){const p=pages.find(x=>x.id===curPg);p.name=$('#pn').value.trim()||p.name;savePg();pgBar();shut()}
+ else if(k==='ptc'){const p=pages.find(x=>x.id===curPg);p.startAt=p.stopAt='';savePg();pgBar();sheet(sPg())}
+ else if(k==='pdu'){const src=pages.find(x=>x.id===curPg),id=Math.max(0,...pages.map(q=>q.id))+1,base=Date.now();let n=0;pages.push({id,name:src.name+' (copy)'});pageList(curPg).slice().forEach(s=>{const c=Object.assign({},s,{id:base+(n++),pg:id,startAt:'',stopAt:'',_pl:0,_cue:undefined,_nx:null,_cp:false,_dk:1,clips:(s.clips||[]).map(q=>Object.assign({},q,{id:base+1000+(n++),_pd:false}))});songs.push(c);save(c)});so();curPg=id;savePg();shut();render();ui();toast('Page duplicated. Tap the new page again to rename it.')}
+ else if(k==='pdl'){if(pages.length<2){toast('At least one page must stay');return}const first=pages.find(x=>x.id!==curPg);songs.forEach(x=>{if((x.pg||1)===curPg){x.pg=first.id;save(x)}});pages=pages.filter(x=>x.id!==curPg);curPg=first.id;savePg();shut();render();ui()}
+ else if(k==='oset'){const id=b.dataset.id||'',n=b.dataset.n||'';if(b.dataset.k==='main'){mainDev=id;mainName=n;lsv('cs_main',id);lsv('cs_mainn',n);applyMain()}else{headDev=id;headName=n;lsv('cs_head',id);lsv('cs_headn',n)}outLbl();beep(id);shut();sameOut()}
+ else if(k==='onames'){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop())}catch(x){toast('Permission was not given');return}openOut(b.dataset.k)}
+ else if(!s)return;
+ else if(k==='cadd')$('#fc').click();
+ else if(k==='cclr'){if(!b._arm){b._arm=true;b.textContent='Confirm?';setTimeout(()=>{b._arm=false;b.textContent='Clear Clips'},3000);return}s.clips=[];s.clipsOn=false;save(s);render();sheet(sCl(s))}
+ else if(k==='capply'){s.clipsOn=true;const a=A.get(s.id),t=a?a.currentTime:0;(s.clips||[]).forEach(c=>{c._pd=c.at<t-1});save(s);toast((s.clips||[]).length+' clip(s) are active and will play at their times');shut();render()}
+ else if(k==='cplay')clipPreview(s,+b.dataset.i,false)
+ else if(k==='ccue')clipPreview(s,+b.dataset.i,true)
+ else if(k==='cdel'){(s.clips||[]).splice(+b.dataset.i,1);s.clipsOn=false;save(s);render();sheet(sCl(s))}
+ else if(k==='clt'){s.startAt=s.stopAt='';s._ks=s._kx=null;save(s);render();ui();sheet(sCh(s))}
+ else if(k==='rp')$('#fr').click();
+ else if(k==='del'){const a=A.get(s.id);if(a){halt(a);URL.revokeObjectURL(a.src);A.delete(s.id)}if(cur&&cur.id===s.id)cur=null;songs=songs.filter(x=>x!==s);so();await tx('readwrite',st=>st.delete(s.id));shut();render();ui()}
+ else if(k==='names'){try{const st=await navigator.mediaDevices.getUserMedia({audio:true});st.getTracks().forEach(t=>t.stop())}catch(x){toast('Permission was not given');return}openDev(s)}
+ else if(k==='dev')await setDev(s,b.dataset.id||'',b.dataset.n||'');
+ else if(k==='pick'){try{const d=await navigator.mediaDevices.selectAudioOutput();await setDev(s,d.deviceId,d.label)}catch(x){toast(x&&x.name==='NotAllowedError'?'Chrome blocked device choosing here. Open the app on its own page.':'No device chosen')}}
+});
+$('#md').addEventListener('change',e=>{
+ const t=e.target,s=SEL;
+ if(t.dataset.pt){const p=pages.find(x=>x.id===curPg);if(t.dataset.pt==='s')p.startAt=t.value;else p.stopAt=t.value;savePg();pgBar();return}
+ if(!s)return;
+ if(t.dataset.mp){s.pg=+t.value;save(s);shut();render();ui();return}
+ if(t.dataset.o){s.only=t.checked;save(s);rn(s);return}
+ if(t.dataset.ct){const c=(s.clips||[])[+t.closest('.cl').dataset.ci],v=tmin(t.value);if(c&&v!=null){c.at=v;c._pd=false;s.clipsOn=false;save(s);const ab=document.querySelector('#md [data-a="capply"]');if(ab)ab.textContent='Apply'}if(c)t.value=fmt(c.at);return}
+ if(!t.dataset.t)return;
+ if(t.dataset.t==='s'){s.startAt=t.value;if(t.value)s.only=true}else s.stopAt=t.value;
+ s._ks=s._kx=null;save(s);rn(s);
+});
+$('#md').addEventListener('input',e=>{
+ if(e.target.id==='fd'){fadeS=+e.target.value;lsv('cs_fade',fadeS);$('#fdt').textContent=fadeS?fadeS+' s':'Off';return}
+ if(e.target.id==='xf'){xfS=+e.target.value;lsv('cs_xf',xfS);$('#xft').textContent=xfS?xfS+' s':'Gapless';return}
+ if(e.target.id==='dk'){duckS=+e.target.value;lsv('cs_duck',duckS);$('#dkt').textContent=Math.round(duckS*100)+'%';return}
+ if(e.target.id!=='bl')return;
+ bl=+e.target.value;bo=bl>0;lsv('csl',bl);lsv('csb',bo?'1':'0');applyFx();$('#bt').textContent='+'+bl+' dB';
+});
+/* Adding, replacing, clearing songs */
+function dur(b){return new Promise(r=>{const a=new Audio(),u=URL.createObjectURL(b);const f=v=>{URL.revokeObjectURL(u);r(v)};a.preload='metadata';a.onloadedmetadata=()=>f(isFinite(a.duration)?a.duration:0);a.onerror=()=>f(0);setTimeout(()=>f(0),8000);a.src=u})}
+function total(){const L=pageList(curPg),T=L.reduce((x,s)=>x+(s.dur||0),0),P=L.reduce((x,s)=>x+Math.min(s._pl||0,s.dur||0),0);$('#tt').textContent='⏱ '+fmt(P)+' / '+fmt(T)}
+$('#tt').onclick=()=>{songs.forEach(x=>{x._pl=0});rnd.clear();total();toast('Played time reset')};
+async function fixDur(){for(const s of songs.slice()){if(s.dur===undefined){s.dur=await dur(s.blob);await save(s);labels();total()}}}
+$('#fi').onchange=async e=>{
+ let k=0;
+ for(const f of e.target.files){
+  const o={id:Date.now()+(k++),name:f.name.replace(/\.[^.]+$/,''),vol:1,blob:f,pg:curPg};
+  o.dur=await dur(f);songs.push(o);await save(o);so();
+ }
+ e.target.value='';render();ui();
+ const g=$('#ch');g.scrollLeft=g.scrollWidth;
+};
+$('#fr').onchange=async e=>{
+ const f=e.target.files[0],s=SEL;e.target.value='';if(!f||!s)return;
+ const a=A.get(s.id);if(a){halt(a);URL.revokeObjectURL(a.src);A.delete(s.id)}
+ s.blob=f;s.name=f.name.replace(/\.[^.]+$/,'');s.dur=await dur(f);s._pk=undefined;wvS=null;
+ await save(s);shut();render();ui();
+};
+$('#fc').onchange=async e=>{
+ const s=SEL;if(!s)return;s.clips=s.clips||[];let k=0;
+ for(const f of e.target.files){const last=s.clips.length?s.clips[s.clips.length-1].at:0;s.clips.push({id:Date.now()+(k++),name:f.name.replace(/\.[^.]+$/,''),blob:f,at:last+60,vol:1})}
+ s.clipsOn=false;e.target.value='';await save(s);render();sheet(sCl(s));
+};
+let ct;
+$('#clr').onclick=async()=>{
+ const b=$('#clr'),L=pageList(curPg);if(!L.length)return;
+ if(!b.classList.contains('arm')){b.classList.add('arm');b.textContent='Confirm?';clearTimeout(ct);ct=setTimeout(()=>{b.classList.remove('arm');b.textContent='Clear'},3000);return}
+ clearTimeout(ct);b.classList.remove('arm');b.textContent='Clear';
+ for(const s of L){const a=A.get(s.id);if(a){halt(a);URL.revokeObjectURL(a.src);A.delete(s.id)}if(s._cue)s._cue.pause();await tx('readwrite',st=>st.delete(s.id))}
+ songs=songs.filter(x=>(x.pg||1)!==curPg);
+ if(cur&&(cur.pg||1)===curPg)cur=null;
+ held=held.filter(x=>songs.includes(x));so();render();ui();
+};
+
+(async()=>{
+ await openDB();songs=(await tx('readonly',s=>s.getAll()))||[];
+ let od=[];try{od=JSON.parse(localStorage.getItem('cso')||'[]')}catch(e){}
+ songs.sort((a,b)=>{const x=od.indexOf(a.id),y=od.indexOf(b.id);return(x<0?1e9:x)-(y<0?1e9:y)||a.id-b.id});
+ songs.forEach(s=>{if(!pages.some(p=>p.id===(s.pg||1)))s.pg=pages[0].id});
+ render();ui();label();draw();fixDur();outLbl();
+})();
+/* PWA: offline + install (phone and computer) + keep songs safe + keyboard */
+try{navigator.storage&&navigator.storage.persist&&navigator.storage.persist()}catch(e){}
+let dip=null;
+addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;$('#ins').hidden=false});
+addEventListener('appinstalled',()=>{dip=null;$('#ins').hidden=true});
+$('#ins').onclick=async()=>{if(!dip)return;dip.prompt();try{await dip.userChoice}catch(e){}dip=null;$('#ins').hidden=true};
+addEventListener('keydown',e=>{const t=e.target.tagName;if(t==='INPUT'||t==='SELECT')return;if(e.code==='Space'&&t==='BODY'){e.preventDefault();$('#pp').click()}else if(e.key==='ArrowRight')seekBy(10);else if(e.key==='ArrowLeft')seekBy(-10)});
+</script></body></html>
