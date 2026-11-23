@@ -1,0 +1,9 @@
+{
+  "appId": "com.balramsevak.channelsoundboard",
+  "appName": "Channel Soundboard",
+  "webDir": "www",
+  "backgroundColor": "#13151a",
+  "android": {
+    "allowMixedContent": false
+  }
+}
