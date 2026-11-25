@@ -740,4 +740,20 @@ addEventListener('beforeinstallprompt',e=>{e.preventDefault();dip=e;$('#ins').hi
 addEventListener('appinstalled',()=>{dip=null;$('#ins').hidden=true});
 $('#ins').onclick=async()=>{if(!dip)return;dip.prompt();try{await dip.userChoice}catch(e){}dip=null;$('#ins').hidden=true};
 addEventListener('keydown',e=>{const t=e.target.tagName;if(t==='INPUT'||t==='SELECT')return;if(e.code==='Space'&&t==='BODY'){e.preventDefault();$('#pp').click()}else if(e.key==='ArrowRight')seekBy(10);else if(e.key==='ArrowLeft')seekBy(-10)});
+/* Android app: keep playing (and keep scheduled start times) while the screen is off or locked */
+const BG=window.Capacitor&&window.Capacitor.Plugins&&window.Capacitor.Plugins.BackgroundMode;
+let bgOn=false;
+function bgSync(){
+ if(!BG)return;
+ const need=songs.some(s=>s.startAt)||pages.some(p=>p.startAt)||al();
+ if(need===bgOn)return;bgOn=need;
+ if(need){
+  BG.setSettings({title:'Channel Soundboard',text:'Playing in the background',subText:'',bigText:false,resume:true,silent:false,hidden:false,color:'F2B53D',icon:'ic_launcher',channelName:'Channel Soundboard',channelDescription:'Keeps the music playing while the screen is off',allowClose:false,showWhen:false,visibility:'public'})
+   .then(()=>{try{BG.requestNotificationsPermission()}catch(e){}return BG.enable()})
+   .then(()=>BG.disableWebViewOptimizations())
+   .then(()=>{if(!lg('cs_bat')){lsv('cs_bat','1');BG.requestDisableBatteryOptimizations().catch(()=>{})}})
+   .catch(()=>{});
+ }else BG.disable().catch(()=>{});
+}
+if(BG){const _ks=kaSync;kaSync=function(){_ks();bgSync()};setInterval(bgSync,3000)}
 </script></body></html>
