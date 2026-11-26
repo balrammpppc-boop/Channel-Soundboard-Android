@@ -4,7 +4,6 @@
   "private": true,
   "description": "Channel Soundboard packaged as an Android app",
   "dependencies": {
-    "@anuradev/capacitor-background-mode": "6.0.0",
     "@capacitor/android": "6.2.1",
     "@capacitor/core": "6.2.1"
   },
