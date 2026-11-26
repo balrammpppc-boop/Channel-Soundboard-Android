@@ -19,7 +19,7 @@ jobs:
           distribution: temurin
           java-version: '17'
       - name: Install tools
-        run: npm install --no-audit --no-fund --legacy-peer-deps
+        run: npm install --no-audit --no-fund
       - name: Add the Android project
         run: npx cap add android
       - name: Make the app icon
@@ -27,17 +27,6 @@ jobs:
         run: npx capacitor-assets generate --android --iconBackgroundColor '#13151a' --iconBackgroundColorDark '#13151a'
       - name: Copy the app files into Android
         run: npx cap sync android
-      - name: Let the app keep playing with the screen off
-        run: |
-          python3 - <<'PY'
-          p='android/app/src/main/AndroidManifest.xml'
-          s=open(p).read()
-          if 'xmlns:tools' not in s:
-              s=s.replace('<manifest ','<manifest xmlns:tools="http://schemas.android.com/tools" ',1)
-          s=s.replace('</application>','    <service android:name="ar.com.anura.plugins.backgroundmode.BackgroundModeService" android:foregroundServiceType="mediaPlayback" tools:node="merge" />\n    </application>',1)
-          s=s.replace('</manifest>','    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />\n</manifest>',1)
-          open(p,'w').write(s)
-          PY
       - name: Give every build a higher version number
         run: |
           sed -i "s/versionCode 1/versionCode ${GITHUB_RUN_NUMBER}/" android/app/build.gradle
